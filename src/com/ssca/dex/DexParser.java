@@ -1,15 +1,18 @@
 package com.ssca.dex;
 
-import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.jar.JarFile;
 
 import com.ssca.format.Dex;
 import com.ssca.utils.ApkUnZip;
 
 public class DexParser {
+	
+	public static List<String> allClassList = new ArrayList<>();
 
-	public static void parseEachDexFile(String apkPath){
+	public static List<String> parseEachDexFile(String apkPath){
 		JarFile jarFile = null;
 		try {
 			jarFile = new JarFile(apkPath);
@@ -27,22 +30,27 @@ public class DexParser {
 			//			DataInputStream dis = ApkUnZip.getDexDataInputStreamWithBuffered(jarFile, dexName);
 			//			if(dis!=null){
 			try {
-				System.out.println("start parse "+dexName);
+//				System.out.println("start parse "+dexName);
 				Dex thisDex = new Dex(dexName);
 				DexHeaderParser.getHeaderInfo(jarFile, dexName, thisDex);
 				DexStringParser.getStringInfo(jarFile, dexName, thisDex);
-				System.out.println();
+				DexTypeParser.getTypeInfo(jarFile, dexName, thisDex);
+				DexClassParser.getClassInfo(jarFile, dexName, thisDex);
+				allClassList.addAll(thisDex.classList);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//			}else
-			//				System.err.println("dex data input stream is null");
 		}
+		
+		return allClassList;
 	}
 
 	public static void main(String[] args) {
 		String s  = "/Users/konghaohao/Desktop/test_result/APK/baidumap.apk";
+		long starTime=System.currentTimeMillis();
 		DexParser.parseEachDexFile(s);
+		long endTime=System.currentTimeMillis();
+		System.out.println("耗时："+(endTime-starTime)+" ms");
 	}
 
 }
