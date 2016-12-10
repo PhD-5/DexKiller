@@ -35,9 +35,11 @@ public class DexParser {
 				DexHeaderParser.getHeaderInfo(jarFile, dexName, thisDex);
 				DexStringParser.getStringInfo(jarFile, dexName, thisDex);
 				DexTypeParser.getTypeInfo(jarFile, dexName, thisDex);
-				DexClassParser.getClassInfo(jarFile, dexName, thisDex);
+//				DexClassParser.getClassInfo(jarFile, dexName, thisDex);
+				DexProtoParser.getProtoInfo(jarFile, dexName, thisDex);
+				DexMethodParser.getMethodInfo(jarFile, dexName, thisDex);
 //				allClassList.addAll(thisDex.classList);
-//				System.out.println(thisDex.classList.size());
+				System.out.println(thisDex.methodList.size());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -7,6 +7,11 @@ public class ByteUtils {
 		return targets;   
 	}
 	
+	public static int twoBytes2Int(byte[] res){
+		int targets = (res[0] & 0xff) | ((res[1] << 8) & 0xff00);   
+		return targets; 
+	}
+	
 	public static String bytes2HexString(byte[] src){  
 	    StringBuilder stringBuilder = new StringBuilder("");  
 	    if (src == null || src.length <= 0) {  
