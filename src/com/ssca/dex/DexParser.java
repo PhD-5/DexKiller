@@ -30,14 +30,15 @@ public class DexParser {
 			//			DataInputStream dis = ApkUnZip.getDexDataInputStreamWithBuffered(jarFile, dexName);
 			//			if(dis!=null){
 			try {
-//				System.out.println("start parse "+dexName);
+				System.out.println("start parse "+dexName);
 				Dex thisDex = new Dex(dexName);
 				DexHeaderParser.getHeaderInfo(jarFile, dexName, thisDex);
 				DexStringParser.getStringInfo(jarFile, dexName, thisDex);
 				DexTypeParser.getTypeInfo(jarFile, dexName, thisDex);
 				DexClassParser.getClassInfo(jarFile, dexName, thisDex);
-				allClassList.addAll(thisDex.classList);
-			} catch (IOException e) {
+//				allClassList.addAll(thisDex.classList);
+//				System.out.println(thisDex.classList.size());
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
