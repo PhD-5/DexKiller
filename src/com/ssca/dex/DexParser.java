@@ -10,9 +10,9 @@ import com.ssca.utils.ApkUnZip;
 
 public class DexParser {
 	
-	public static List<String> allClassList = new ArrayList<>();
+//	public static List<String> allClassList = new ArrayList<>();
 
-	public static List<String> parseEachDexFile(String apkPath){
+	public static Dex parseEachDexFile(String apkPath){
 		JarFile jarFile = null;
 		try {
 			jarFile = new JarFile(apkPath);
@@ -35,23 +35,26 @@ public class DexParser {
 				DexHeaderParser.getHeaderInfo(jarFile, dexName, thisDex);
 				DexStringParser.getStringInfo(jarFile, dexName, thisDex);
 				DexTypeParser.getTypeInfo(jarFile, dexName, thisDex);
-//				DexClassParser.getClassInfo(jarFile, dexName, thisDex);
+				DexClassParser.getClassInfo(jarFile, dexName, thisDex);
 				DexProtoParser.getProtoInfo(jarFile, dexName, thisDex);
 				DexMethodParser.getMethodInfo(jarFile, dexName, thisDex);
+				return thisDex;
 //				allClassList.addAll(thisDex.classList);
-				System.out.println(thisDex.methodList.size());
+//				System.out.println(thisDex.methodList.size());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return allClassList;
+		return null;
 	}
 
 	public static void main(String[] args) {
 		String s  = "/Users/konghaohao/Desktop/test_result/APK/baidumap.apk";
 		long starTime=System.currentTimeMillis();
-		DexParser.parseEachDexFile(s);
+		Dex dexResult = DexParser.parseEachDexFile(s);
+		System.out.println(dexResult.classList.size());
+		System.out.println(dexResult.methodList.get(2));
 		long endTime=System.currentTimeMillis();
 		System.out.println("耗时："+(endTime-starTime)+" ms");
 	}
