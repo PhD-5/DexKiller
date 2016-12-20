@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dex {
+	//for vpn recognize
+	public int vpnCount=0;
+	
 	public String dexName;
 	public DexHeader dexHeader = new DexHeader();
 	public List<Integer> stringOffList = new ArrayList<Integer>();

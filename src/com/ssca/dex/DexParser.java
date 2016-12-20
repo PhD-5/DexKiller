@@ -10,9 +10,10 @@ import com.ssca.utils.ApkUnZip;
 
 public class DexParser {
 	
-//	public static List<String> allClassList = new ArrayList<>();
-
 	public static List<Dex> parseEachDexFile(String apkPath){
+		//read rule
+		RuleUtils.readRuleTxt();
+		
 		List<Dex> res = new ArrayList<Dex>();
 		
 		JarFile jarFile = null;
@@ -30,7 +31,6 @@ public class DexParser {
 			else
 				dexName = "classes"+i+".dex";
 			try {
-				System.out.println("start parse "+dexName);
 				Dex thisDex = new Dex(dexName);
 				DexHeaderParser.getHeaderInfo(jarFile, dexName, thisDex);
 				DexStringParser.getStringInfo(jarFile, dexName, thisDex);
@@ -44,16 +44,6 @@ public class DexParser {
 			}
 			
 		}
-//		System.out.println("all classes count: "+allClassList.size());
 		return res;
 	}
-
-	public static void main(String[] args) {
-		String s  = "/Users/konghaohao/Desktop/test_result/APK/baidumap.apk";
-		long starTime=System.currentTimeMillis();
-		List<Dex> dexResult = DexParser.parseEachDexFile(s);
-		long endTime=System.currentTimeMillis();
-		System.out.println("耗时："+(endTime-starTime)+" ms");
-	}
-
 }

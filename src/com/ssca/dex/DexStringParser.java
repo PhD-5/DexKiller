@@ -35,7 +35,7 @@ public class DexStringParser {
 //			int nextSkip = stringOffList.get(0) - stringSize*4 - 0x70;  //0X70 is the size of header
 //			dis.skipBytes(nextSkip);
 			
-			for(int i=0;i<stringSize-1;i++){
+			for(int i=0;i<stringSize;i++){
 //				System.out.print("["+i+"] "+stringOffList.get(i));
 				dis.skipBytes(stringOffList.get(i)-needToSkipFromStart);
 				//get chars count from first uleb128
@@ -46,7 +46,9 @@ public class DexStringParser {
 				String s = MUTF8.decode(dis, out);
 				//store s
 				stringList.add(i, s);
-//				System.out.println(":"+s);
+				
+				dex.vpnCount+=RuleUtils.matchStr(s);
+				
 				dis.reset();
 			}
 		}else{
