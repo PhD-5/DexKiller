@@ -36,7 +36,7 @@ public class DexStringParser {
 //			dis.skipBytes(nextSkip);
 			
 			for(int i=0;i<stringSize-1;i++){
-				System.out.print("["+i+"] "+stringOffList.get(i));
+//				System.out.print("["+i+"] "+stringOffList.get(i));
 				dis.skipBytes(stringOffList.get(i)-needToSkipFromStart);
 				//get chars count from first uleb128
 				int charCount = Uleb128.readLeb128(dis);
@@ -46,7 +46,7 @@ public class DexStringParser {
 				String s = MUTF8.decode(dis, out);
 				//store s
 				stringList.add(i, s);
-				System.out.println(":"+s);
+//				System.out.println(":"+s);
 				dis.reset();
 			}
 		}else{
