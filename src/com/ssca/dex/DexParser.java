@@ -9,10 +9,13 @@ import com.ssca.format.Dex;
 import com.ssca.utils.ApkUnZip;
 
 public class DexParser {
+	static{
+		//read rule
+				RuleUtils.readRuleTxt();
+	}
 	
 	public static List<Dex> parseEachDexFile(String apkPath){
-		//read rule
-		RuleUtils.readRuleTxt();
+		
 		
 		List<Dex> res = new ArrayList<Dex>();
 		
@@ -34,10 +37,11 @@ public class DexParser {
 				Dex thisDex = new Dex(dexName);
 				DexHeaderParser.getHeaderInfo(jarFile, dexName, thisDex);
 				DexStringParser.getStringInfo(jarFile, dexName, thisDex);
-				DexTypeParser.getTypeInfo(jarFile, dexName, thisDex);
-				DexClassParser.getClassInfo(jarFile, dexName, thisDex);
-				DexProtoParser.getProtoInfo(jarFile, dexName, thisDex);
-				DexMethodParser.getMethodInfo(jarFile, dexName, thisDex);
+//				DexTypeParser.getTypeInfo(jarFile, dexName, thisDex);
+//				DexClassParser.getClassInfo(jarFile, dexName, thisDex);
+//				DexProtoParser.getProtoInfo(jarFile, dexName, thisDex);
+//				DexMethodParser.getMethodInfo(jarFile, dexName, thisDex);
+				RuleUtils.countVPN(thisDex);
 				res.add(thisDex);
 			} catch (Exception e) {
 				e.printStackTrace();

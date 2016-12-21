@@ -1,11 +1,14 @@
 package com.ssca.format;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Dex {
 	//for vpn recognize
 	public int vpnCount=0;
+	public Map<String,Integer> vpnMap = new HashMap<>();
 	
 	public String dexName;
 	public DexHeader dexHeader = new DexHeader();

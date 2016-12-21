@@ -47,7 +47,9 @@ public class DexStringParser {
 				//store s
 				stringList.add(i, s);
 				
-				dex.vpnCount+=RuleUtils.matchStr(s);
+				RuleUtils.matchStr(s,dex);
+				if(dex.vpnCount>=200)
+					break;
 				
 				dis.reset();
 			}
