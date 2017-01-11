@@ -25,6 +25,7 @@ public class Main {
 				int total = 0;
 				for(Dex dex:dexList){
 					total+=dex.vpnCount;
+					System.out.println(dex.vpnMap);
 //					System.out.println("["+(end-start)+"] file:"+file.getName()+" dex:"+dex.dexName+" vpn:"+dex.vpnCount +" map:"+dex.vpnMap);
 //					System.out.println("["+(end-start)+"] file:"+file.getName()+" dex:"+dex.dexName+" vpn:"+dex.vpnCount );
 				}
