@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" monitorInterval="5">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{yyyy.MM.dd 'at' HH:mm:ss.SSS} [%t] [%-4level] %logger{36} - %msg%n" />
+		</Console>
+		<File name="logWarn" fileName="logs/warn.log" append="false">
+			<PatternLayout
+				pattern="%d{yyyy.MM.dd 'at' HH:mm:ss.SSS} [%t] [%-4level] %logger{36} - %M [%L] - %msg%n" />
+				<!-- <PatternLayout pattern="%msg%n" /> -->
+		</File>
+		<!-- <File name="log" fileName="logs/all.log" append="false"> <PatternLayout 
+			pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} [%t] %-5level %logger{36} - %msg%n" 
+			/> </File> -->
+		<RollingFile name="RollingFileInfo" fileName="logs/info.log"
+			filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			<!--<PatternLayout
+				  pattern="%d{yyyy.MM.dd 'at' HH:mm:ss.SSS} [%-4level] %class{36} - %M [%L]  - %msg%xEx%n" />-->
+			<PatternLayout
+				  pattern="%d{yyyy.MM.dd 'at' HH:mm:ss.SSS} [%-4level]  - %msg%xEx%n" />
+			pattern="%d{yyyy.MM.dd 'at' HH:mm:ss.SSS} [%-4level] %class{36} - %M [%L]  - %msg%xEx%n" />
+			<SizeBasedTriggeringPolicy size="500 MB" />
+		</RollingFile>
+		<File name="logDebug" fileName="logs/debug.log" append="false">
+			<PatternLayout
+				pattern="%d{yyyy.MM.dd 'at' HH:mm:ss.SSS} [%t] [%-4level] %logger{36} - %M [%L] - %msg%n" />
+				<!-- <PatternLayout pattern="%msg%n" /> -->
+		</File>
+	</Appenders>
+	<Loggers>
+		<Logger name="filelogger" level="warn">
+			<AppenderRef ref="logWarn" />
+		</Logger>
+		<Logger name="filelogger" level="info" additivity="false">
+			<AppenderRef ref="RollingFileInfo" />
+		</Logger>
+		<Logger name="filelogger" level="debug">
+			<AppenderRef ref="logDebug" />
+		</Logger>
+		<Root level="debug">
+			<!-- <AppenderRef ref="log" level="trace" /> -->
+			<AppenderRef ref="Console" level="trace" />
+			<AppenderRef ref="logWarn" level="warn" />
+			<AppenderRef ref="RollingFileInfo" level="info" />
+			<AppenderRef ref="logDebug" level="debug" />
+		</Root>
+	</Loggers>
+</Configuration>
