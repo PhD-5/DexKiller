@@ -6,3 +6,4 @@ gradle/
 .project
 gradlew.bat
 gradlew
+logs/
