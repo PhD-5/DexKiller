@@ -2,7 +2,6 @@ package com.ssca.dex;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.jar.JarFile;
 
 import com.ssca.format.Dex;
@@ -11,16 +10,17 @@ import com.ssca.utils.ApkUnZip;
 import com.ssca.utils.ByteUtils;
 
 public class DexMethodParser {
-	public static void getMethodInfo(JarFile jarFile, String dexName, Dex dex) throws IOException{
+
+	public static void getMethodInfo(JarFile jarFile, String dexName, Dex dex) throws IOException {
 		DataInputStream dis = ApkUnZip.getDexDataInputStreamWithBuffered(jarFile, dexName);
-		if(dis!=null){
+		if (dis != null) {
 			int methodSize = ByteUtils.byte2Int(dex.dexHeader.method_ids_size);
-			int methodOff  = ByteUtils.byte2Int(dex.dexHeader.method_ids_off);
+			int methodOff = ByteUtils.byte2Int(dex.dexHeader.method_ids_off);
 			dis.skipBytes(methodOff);
-			byte[]classIdx = new byte[2];  //index of type
-			byte[]protoIdx = new byte[2];  //index of proto
-			byte[]nameIdx = new byte[4];   //index of string
-			for(int i=0; i<methodSize;i++){
+			byte[] classIdx = new byte[2]; // index of type
+			byte[] protoIdx = new byte[2]; // index of proto
+			byte[] nameIdx = new byte[4]; // index of string
+			for (int i = 0; i < methodSize; i++) {
 				DexMethod dexMethod = new DexMethod();
 				dis.read(classIdx);
 				dis.read(protoIdx);
@@ -30,9 +30,19 @@ public class DexMethodParser {
 				dexMethod.name = dex.stringList.get(ByteUtils.byte2Int(nameIdx));
 				dex.methodList.add(dexMethod);
 			}
-			
-		}else{
+
+		} else {
 			System.err.println("dis is null");
+		}
+	}
+
+	public static void updateMethodInfo(Dex thisDex) {
+		for (DexMethod dexMethod : thisDex.methodList) {
+			if (thisDex.classList.contains(dexMethod.classType)) {
+				thisDex.methodDefinedList.add(dexMethod);
+			} else {
+				thisDex.methodReferedList.add(dexMethod);
+			}
 		}
 	}
 }
