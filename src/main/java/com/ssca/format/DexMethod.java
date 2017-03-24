@@ -7,7 +7,11 @@ public class DexMethod {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return classType+"->"+name+"("+methodDeclare+")";
+		String rtn = "";
+		if(null != methodDeclare){
+			rtn = rtn +  methodDeclare.charAt(0) + ":";
+		}
+		rtn += classType + "->" + name + "(" +  methodDeclare.substring(1).trim() + ")";
+		return rtn;
 	}
 }

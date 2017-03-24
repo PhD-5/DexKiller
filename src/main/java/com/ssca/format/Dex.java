@@ -12,8 +12,11 @@ public class Dex {
 	public List<String> protoList = new ArrayList<String>();
 	public List<String> classList = new ArrayList<String>();
 	public List<DexMethod> methodList = new ArrayList<DexMethod>();
-	
-	public Dex(String dexName){
+
+	public List<DexMethod> methodDefinedList = new ArrayList<DexMethod>();
+	public List<DexMethod> methodReferedList = new ArrayList<DexMethod>();
+
+	public Dex(String dexName) {
 		this.dexName = dexName;
 	}
 }
