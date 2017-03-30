@@ -33,10 +33,10 @@ jar {
 //}
 
 repositories {
-    mavenCentral()
-    //maven {
-    //    url "http://192.168.1.10:8081/nexus/content/groups/public"
-    //}
+    //mavenCentral()
+    maven {
+        url "http://192.168.1.10:8081/nexus/content/groups/public"
+    }
 }
 
 dependencies {
@@ -63,7 +63,7 @@ uploadArchives {
             	authentication(userName: "deployment", password: "password")
             }
             pom.groupId = 'u.can.i.up'
-            pom.artifactId = 'GEXFGenerator'
+            pom.artifactId = 'DexKiller'
             pom.version = version;
         }
     }
@@ -72,7 +72,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId = 'u.can.i.up'
-            artifactId = 'GEXFGenerator'
+            artifactId = 'DexKiller'
             version = version;
             
             from components.java
@@ -85,9 +85,9 @@ publishing {
                 password	"password"
             }
             if(project.version.endsWith('-SNAPSHOT')) {
-                url "http://192.186.1.10:8081/nexus/content/repositories/softsec-snapshots/"
+                url "http://192.168.1.10:8081/nexus/content/repositories/softsec-snapshots/"
             } else {
-                url "http://192.186.1.10:8081/nexus/content/repositories/softsec-releases/"
+                url "http://192.168.1.10:8081/nexus/content/repositories/softsec-releases/"
             }
         }
     }

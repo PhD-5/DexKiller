@@ -1,11 +1,13 @@
 package com.ssca.dex;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarFile;
 
 import com.ssca.format.Dex;
+import com.ssca.format.DexMethod;
 import com.ssca.utils.ApkUnZip;
 
 public class DexParser {
@@ -56,5 +58,14 @@ public class DexParser {
 	// long endTime = System.currentTimeMillis();
 	// System.out.println("耗时：" + (endTime - starTime) + " ms");
 	// }
+
+	public static List<DexMethod> getReferedListFromApk(String apkPath) {
+		List<DexMethod> returnList = new ArrayList<DexMethod>();
+		List<Dex> dexList = parseEachDexFile(new File(apkPath).getAbsolutePath());
+		for (Dex dex : dexList) {
+			returnList.addAll(dex.methodReferedList);
+		}
+		return returnList;
+	}
 
 }
