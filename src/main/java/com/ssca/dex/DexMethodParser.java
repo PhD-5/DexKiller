@@ -30,19 +30,8 @@ public class DexMethodParser {
 				dexMethod.name = dex.stringList.get(ByteUtils.byte2Int(nameIdx));
 				dex.methodList.add(dexMethod);
 			}
-
 		} else {
 			System.err.println("dis is null");
-		}
-	}
-
-	public static void updateMethodInfo(Dex thisDex) {
-		for (DexMethod dexMethod : thisDex.methodList) {
-			if (thisDex.classList.contains(dexMethod.classType)) {
-				thisDex.methodDefinedList.add(dexMethod);
-			} else {
-				thisDex.methodReferedList.add(dexMethod);
-			}
 		}
 	}
 }
