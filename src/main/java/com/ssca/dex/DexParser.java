@@ -1,11 +1,15 @@
 package com.ssca.dex;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.jar.JarFile;
 
 import com.ssca.format.Dex;
+import com.ssca.format.DexMethod;
 import com.ssca.utils.ApkUnZip;
 
 public class DexParser {
@@ -38,7 +42,7 @@ public class DexParser {
 				DexClassParser.getClassInfo(jarFile, dexName, thisDex);
 				DexProtoParser.getProtoInfo(jarFile, dexName, thisDex);
 				DexMethodParser.getMethodInfo(jarFile, dexName, thisDex);
-				DexMethodParser.updateMethodInfo(thisDex);
+
 				res.add(thisDex);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -57,4 +61,32 @@ public class DexParser {
 	// System.out.println("耗时：" + (endTime - starTime) + " ms");
 	// }
 
+	/**@param apkPath - apk路径.
+	 * */
+	public static List<DexMethod> getReferedListFromApk(String apkPath) {
+		List<DexMethod> methodDefinedList = new ArrayList<DexMethod>();
+		List<DexMethod> methodReferedList = new ArrayList<DexMethod>();
+		Set<DexMethod> methodSet = new HashSet<DexMethod>();
+		Set<String> classSet = new HashSet<String>();
+		List<Dex> dexList = parseEachDexFile(new File(apkPath).getAbsolutePath());
+		for (Dex dex : dexList) {
+			methodSet.addAll(dex.methodList);
+			classSet.addAll(dex.classList);
+		}
+		updateMethodInfo(methodSet, classSet, methodDefinedList, methodReferedList);
+		return methodReferedList;
+	}
+
+	public static void updateMethodInfo(Set<DexMethod> methodSet, Set<String> classSet,
+			List<DexMethod> methodDefinedList, List<DexMethod> methodReferedList) {
+		if (!methodSet.isEmpty()) {
+			for (DexMethod dexMethod : methodSet) {
+				if (classSet.contains(dexMethod.classType)) {
+					methodDefinedList.add(dexMethod);
+				} else {
+					methodReferedList.add(dexMethod);
+				}
+			}
+		}
+	}
 }
