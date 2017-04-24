@@ -61,8 +61,11 @@ public class DexParser {
 	// System.out.println("耗时：" + (endTime - starTime) + " ms");
 	// }
 
-	/**@param apkPath - apk路径.
-	 * */
+	/**
+	 * @param apkPath
+	 *            - apk路径.
+	 * @return 返回调用方法(非声明方法)列表.
+	 */
 	public static List<DexMethod> getReferedListFromApk(String apkPath) {
 		List<DexMethod> methodDefinedList = new ArrayList<DexMethod>();
 		List<DexMethod> methodReferedList = new ArrayList<DexMethod>();
@@ -75,6 +78,22 @@ public class DexParser {
 		}
 		updateMethodInfo(methodSet, classSet, methodDefinedList, methodReferedList);
 		return methodReferedList;
+	}
+
+	/**
+	 * @param apkPath
+	 *            - apk路径.
+	 * @return 返回类列表.
+	 */
+	public static List<String> getClassListFromApk(String apkPath) {
+		Set<String> classSet = new HashSet<String>();
+		List<String> classList = new ArrayList<String>();
+		List<Dex> dexList = parseEachDexFile(new File(apkPath).getAbsolutePath());
+		for (Dex dex : dexList) {
+			classSet.addAll(dex.classList);
+		}
+		classList.addAll(classSet);
+		return classList;
 	}
 
 	public static void updateMethodInfo(Set<DexMethod> methodSet, Set<String> classSet,
