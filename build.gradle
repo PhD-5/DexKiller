@@ -8,7 +8,7 @@ apply plugin: 'application'
 mainClassName = "com.ssca.main.Main"
 
 sourceCompatibility = 1.8
-version = '1.2.2-SNAPSHOT'
+version = '1.2.3-SNAPSHOT'
 compileJava.options.encoding = 'UTF-8'
 
 jar {
@@ -44,6 +44,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
     compile 'org.apache.logging.log4j:log4j-api:2.0'
     compile 'org.apache.logging.log4j:log4j-core:2.0'
+    compile 'org.smali:baksmali:2.2.1'
 }
 
 test {

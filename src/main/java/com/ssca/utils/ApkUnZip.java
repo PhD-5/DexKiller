@@ -12,7 +12,7 @@ import java.util.jar.JarFile;
 
 public class ApkUnZip {
 
-	public static int getDexCount(JarFile jarFile){
+	public static int getDexCount(JarFile jarFile) {
 		int dexCount = 0;
 		Enumeration<JarEntry> entries = jarFile.entries();
 		while (entries.hasMoreElements()) {
@@ -24,7 +24,6 @@ public class ApkUnZip {
 		return dexCount;
 	}
 
-	@SuppressWarnings("resource")
 	public static byte[] getDex(JarFile jarFile) {
 		try {
 			Enumeration<JarEntry> entries = jarFile.entries();
@@ -45,8 +44,6 @@ public class ApkUnZip {
 		return null;
 	}
 
-
-	@SuppressWarnings("resource")
 	public static List<DataInputStream> getDexDataInputStream(String filePathString) {
 		List<DataInputStream> disList = new ArrayList<DataInputStream>();
 		JarFile jarFile;
@@ -55,9 +52,9 @@ public class ApkUnZip {
 			Enumeration<JarEntry> entries = jarFile.entries();
 			while (entries.hasMoreElements()) {
 				final JarEntry je = entries.nextElement();
-				if (je.getName().contains("classes")&&je.getName().endsWith("dex")) {
-					System.out.println("file name:"+je.getName());
-					System.out.println("file size:"+je.getSize());
+				if (je.getName().contains("classes") && je.getName().endsWith("dex")) {
+					System.out.println("file name:" + je.getName());
+					System.out.println("file size:" + je.getSize());
 					DataInputStream dis = new DataInputStream(jarFile.getInputStream(je));
 					disList.add(dis);
 				}
@@ -85,7 +82,7 @@ public class ApkUnZip {
 	}
 
 	public static void main(String[] args) {
-		String s  = "/Users/konghaohao/Desktop/test_result/APK/baidumap.apk";
+		String s = "/Users/konghaohao/Desktop/test_result/APK/baidumap.apk";
 		ApkUnZip.getDexDataInputStream(s);
 	}
 }
