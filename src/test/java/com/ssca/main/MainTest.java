@@ -20,7 +20,7 @@ public class MainTest {
 		File file = new File("F:\\Desktop\\app-debug.apk");
 //		List<Dex> dexList = DexParser.parseEachDexFile(file.getAbsolutePath());
 //		logger.info("" + dexList.size());
-		List<DexMethod> dex = DexParser.getReferedListFromApk(file.getAbsolutePath());
+		List<DexMethod> dex = DexParser.getSystemMethodReferedListFromApk(file.getAbsolutePath());
 		for (DexMethod dexMethod : dex) {
 			logger.info("" + dexMethod.classType + " -> " + dexMethod.name + " " + dexMethod.methodDeclare);
 		}
