@@ -99,7 +99,7 @@ public class DexParser {
 	/**
 	 * @param apkPath
 	 *            - apk路径.
-	 * @return 返回系统调用方法(非声明方法)列表.
+	 * @return 返回系统声明方法列表.
 	 */
 	public static List<DexMethod> getMethodDefinedListFromApk(String apkPath) {
 		List<DexMethod> methodDefinedList = new ArrayList<DexMethod>();
