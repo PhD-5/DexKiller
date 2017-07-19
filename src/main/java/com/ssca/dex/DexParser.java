@@ -95,6 +95,25 @@ public class DexParser {
 		updateMethodInfo(methodSet, classSet, methodDefinedList, systemMethodReferedList);
 		return systemMethodReferedList;
 	}
+	
+	/**
+	 * @param apkPath
+	 *            - apk路径.
+	 * @return 返回系统调用方法(非声明方法)列表.
+	 */
+	public static List<DexMethod> getMethodDefinedListFromApk(String apkPath) {
+		List<DexMethod> methodDefinedList = new ArrayList<DexMethod>();
+		List<DexMethod> systemMethodReferedList = new ArrayList<DexMethod>();
+		Set<DexMethod> methodSet = new HashSet<DexMethod>();
+		Set<String> classSet = new HashSet<String>();
+		List<Dex> dexList = parseEachDexFile(new File(apkPath).getAbsolutePath());
+		for (Dex dex : dexList) {
+			methodSet.addAll(dex.methodList);
+			classSet.addAll(dex.classList);
+		}
+		updateMethodInfo(methodSet, classSet, methodDefinedList, systemMethodReferedList);
+		return methodDefinedList;
+	}
 
 	/**
 	 * @param apkPath
