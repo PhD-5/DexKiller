@@ -53,8 +53,8 @@ public class ApkUnZip {
 			while (entries.hasMoreElements()) {
 				final JarEntry je = entries.nextElement();
 				if (je.getName().contains("classes") && je.getName().endsWith("dex")) {
-					System.out.println("file name:" + je.getName());
-					System.out.println("file size:" + je.getSize());
+					// System.out.println("file name:" + je.getName());
+					// System.out.println("file size:" + je.getSize());
 					DataInputStream dis = new DataInputStream(jarFile.getInputStream(je));
 					disList.add(dis);
 				}

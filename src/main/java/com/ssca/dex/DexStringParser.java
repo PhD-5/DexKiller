@@ -4,6 +4,9 @@ import java.io.DataInputStream;
 import java.util.List;
 import java.util.jar.JarFile;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.ssca.format.Dex;
 import com.ssca.utils.ApkUnZip;
 import com.ssca.utils.ByteUtils;
@@ -11,6 +14,9 @@ import com.ssca.utils.MUTF8;
 import com.ssca.utils.Uleb128;
 
 public class DexStringParser {
+
+	static Logger logger = LogManager.getLogger();
+
 	public static void getStringInfo(JarFile jarFile, String dexName, Dex dex) throws Exception {
 		DataInputStream dis = ApkUnZip.getDexDataInputStreamWithBuffered(jarFile, dexName);
 		if (dis != null) {
@@ -49,7 +55,8 @@ public class DexStringParser {
 				dis.reset();
 			}
 		} else {
-			System.err.println("dis is null");
+			// System.err.println("dis is null");
+			logger.error("dis is null");
 		}
 	}
 }

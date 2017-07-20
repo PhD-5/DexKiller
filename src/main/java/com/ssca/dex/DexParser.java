@@ -50,7 +50,7 @@ public class DexParser {
 			else
 				dexName = "classes" + i + ".dex";
 			try {
-				System.out.println("start parse " + dexName);
+				// System.out.println("start parse " + dexName);
 				Dex thisDex = new Dex(dexName);
 				DexHeaderParser.getHeaderInfo(jarFile, dexName, thisDex);
 				DexStringParser.getStringInfo(jarFile, dexName, thisDex);
@@ -95,7 +95,7 @@ public class DexParser {
 		updateMethodInfo(methodSet, classSet, methodDefinedList, systemMethodReferedList);
 		return systemMethodReferedList;
 	}
-	
+
 	/**
 	 * @param apkPath
 	 *            - apk路径.

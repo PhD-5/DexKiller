@@ -35,7 +35,17 @@ public class DexMethodInstructionParser {
 	public List<String> getInstruction(Instruction instruction, MethodItem methodItem) {
 		Opcode opcode = instruction.getOpcode();
 		String verificationErrorName = null;
-		List<String> methodReferedList = new ArrayList<String>();
+		List<String> methodReferedList = new ArrayList<String>() {
+			private static final long serialVersionUID = 1L;
+			public boolean add(String s) {
+				if (s != null && !s.isEmpty() && s.startsWith("L")) {
+					super.add(s);
+					return true;
+				} else {
+					return false;
+				}
+			}
+		};
 		String referenceString = null;
 		String referenceString2 = null;
 
@@ -357,7 +367,8 @@ public class DexMethodInstructionParser {
 			methodReferedList.add(referenceString2);
 			break;
 		default:
-			assert false;
+			break;
+		// assert false;
 		}
 
 		if (commentOutInstruction) {
