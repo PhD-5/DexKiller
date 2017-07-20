@@ -3,9 +3,11 @@ package com.ssca.dex;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarFile;
 
@@ -279,9 +281,93 @@ public class DexParser {
 		for (MethodItem methodItem : methodItems) {
 			if (methodItem instanceof InstructionMethodItem) {
 				Instruction instruction = methodDefinitionex.getInstructionEx((InstructionMethodItem) methodItem);
-				methodReferedSet.addAll(dmio.getInstruction(instruction, methodItem));
+				methodReferedSet.addAll(dmio.getMethodReferingInstruction(instruction, methodItem));
 			}
 		}
 		return methodReferedSet;
+	}
+
+	/**
+	 * @author lczgywzyy
+	 * 
+	 * @param apkPath
+	 *            - apk路径.
+	 * @return apk中调用的方法.
+	 */
+	@SuppressWarnings("rawtypes")
+	public static Map<String, List<String>> getInstructionMapFromApk(String apkPath) {
+		Map<String, List<String>> instructionMap = new HashMap<String, List<String>>();
+
+		JarFile jarFile = null;
+		try {
+			jarFile = new JarFile(apkPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int dexCount = ApkUnZip.getDexCount(jarFile);
+		for (int i = 1; i <= dexCount; i++) {
+			String dexName;
+			if (i == 1) {
+				dexName = "classes.dex";
+			} else {
+				dexName = "classes" + i + ".dex";
+			}
+			File mApkFile = new File(apkPath);
+			DexBackedDexFile dexFile = null;
+			try {
+				dexFile = DexFileFactory.loadDexEntry(mApkFile, dexName, true, Opcodes.forApi(0));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			List<? extends ClassDef> classDefs = Ordering.natural().sortedCopy(dexFile.getClasses());
+			for (final ClassDef classDef : classDefs) {
+				// class name.
+				String classDescriptor = classDef.getType();
+				if (classDescriptor.charAt(0) != 'L' || classDescriptor.charAt(classDescriptor.length() - 1) != ';') {
+					continue;
+				}
+
+				ClassDefinition classDefinition = new ClassDefinition(new BaksmaliOptions(), classDef);
+				Iterable<? extends Method> directMethods, virtualMethods;
+				if (classDef instanceof DexBackedClassDef) {
+					directMethods = ((DexBackedClassDef) classDef).getDirectMethods(false);
+					virtualMethods = ((DexBackedClassDef) classDef).getVirtualMethods(false);
+				} else {
+					directMethods = classDef.getDirectMethods();
+					virtualMethods = classDef.getVirtualMethods();
+				}
+				Set<Method> methodSet = new HashSet<Method>();
+				Iterator di = directMethods.iterator();
+				while (di.hasNext()) {
+					methodSet.add((Method) di.next());
+				}
+				Iterator vi = virtualMethods.iterator();
+				while (vi.hasNext()) {
+					methodSet.add((Method) vi.next());
+				}
+				List<String> instructionStringList = new ArrayList<String>();
+				for (Method method : methodSet) {
+					MethodImplementation methodImpl = method.getImplementation();
+					if (methodImpl == null) {
+						// TODO
+					} else {
+						MethodDefinitionEx methodDefinitionex = new MethodDefinitionEx(classDefinition, method,
+								methodImpl);
+						List<MethodItem> methodItems = methodDefinitionex.getInstructionList();
+						DexMethodInstructionParser dmio = new DexMethodInstructionParser(methodDefinitionex);
+						instructionStringList.clear();
+						for (MethodItem methodItem : methodItems) {
+							if (methodItem instanceof InstructionMethodItem) {
+								Instruction instruction = methodDefinitionex
+										.getInstructionEx((InstructionMethodItem) methodItem);
+								instructionStringList.add(dmio.getInstruction(instruction, methodItem));
+							}
+						}
+						instructionMap.put(classDescriptor + "->" + method.getName(), instructionStringList);
+					}
+				}
+			}
+		}
+		return instructionMap;
 	}
 }
