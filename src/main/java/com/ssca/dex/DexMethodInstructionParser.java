@@ -741,7 +741,7 @@ public class DexMethodInstructionParser {
 			// writer.write(' ');
 			ConstructedInstruction += " ";
 			try {
-				writeInvokeRegisters(ConstructedInstruction, instruction);
+				ConstructedInstruction = writeInvokeRegisters(ConstructedInstruction, instruction);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -757,7 +757,7 @@ public class DexMethodInstructionParser {
 			ConstructedInstruction += " ";
 			// writeInvokeRegisters(writer);
 			try {
-				writeInvokeRegisters(ConstructedInstruction, instruction);
+				ConstructedInstruction = writeInvokeRegisters(ConstructedInstruction, instruction);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -773,7 +773,7 @@ public class DexMethodInstructionParser {
 			ConstructedInstruction += " ";
 			// writeInvokeRegisters(writer);
 			try {
-				writeInvokeRegisters(ConstructedInstruction, instruction);
+				ConstructedInstruction = writeInvokeRegisters(ConstructedInstruction, instruction);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -828,7 +828,7 @@ public class DexMethodInstructionParser {
 			ConstructedInstruction += " ";
 			// writeInvokeRegisters(writer);
 			try {
-				writeInvokeRegisters(ConstructedInstruction, instruction);
+				ConstructedInstruction = writeInvokeRegisters(ConstructedInstruction, instruction);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

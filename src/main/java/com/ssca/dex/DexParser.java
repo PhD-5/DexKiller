@@ -363,7 +363,8 @@ public class DexParser {
 								instructionStringList.add(dmio.getInstruction(instruction, methodItem));
 							}
 						}
-						instructionMap.put(classDescriptor + "->" + method.getName(), instructionStringList);
+//						instructionMap.put(classDescriptor + "->" + method.getName(), instructionStringList);
+						instructionMap.put(method.toString(), instructionStringList);
 					}
 				}
 			}
