@@ -4,10 +4,16 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.jar.JarFile;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.ssca.format.Dex;
 import com.ssca.utils.ApkUnZip;
 
 public class DexHeaderParser {
+
+	static Logger logger = LogManager.getLogger();
+
 	public static void getHeaderInfo(JarFile jarFile, String dexName, Dex dex) throws IOException {
 
 		DataInputStream dis = ApkUnZip.getDexDataInputStreamWithBuffered(jarFile, dexName);
@@ -56,7 +62,8 @@ public class DexHeaderParser {
 			// dexHeader.class_defs_off = class_defs_off;
 			// dexHeader.class_defs_size = class_defs_size;
 		} else {
-			System.err.println("data input stream is null!");
+			// System.err.println("data input stream is null!");
+			logger.error("data input stream is null!");
 		}
 		// byte[] magic = new byte[8];
 		// dis.read(magic);
