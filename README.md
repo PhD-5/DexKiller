@@ -1,7 +1,7 @@
 # DexKiller
 Parse classes.dex in APK file and get strings/methods/class info. no need unzip, no need re-compile.
 
-##usage
+## Usage
 ```
 String apkPath = "path/to/apk/file";
 List<Dex> dexResult = DexParser.parseEachDexFile(apkPath);
